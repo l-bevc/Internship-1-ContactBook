@@ -8,14 +8,15 @@ namespace Adresar
     {
         static void Main(string[] args)
         {
-            var adressDictionary = new Dictionary<int, Tuple<string, string>>();
-            var number = 234;
+            var adressDictionary = new Dictionary<string, Tuple<string, string>>();
+            var number = "234";
             var adressName = new Tuple<string, string>("Laura Bevc", "adresa");
             adressDictionary[number] = adressName;
-            var number2 = 2222;
+            var number2 = "2222";
             var adressName2 = new Tuple<string, string>("Mate Matic","adresa2");
             adressDictionary[number2] = adressName2;
 
+            //Console.WriteLine(str.Replace(" ",""));
             var exit = false;
             do
             {
@@ -57,7 +58,7 @@ namespace Adresar
                     var listOfChosen = FindByName(adressDictionary);
                     foreach (var person in listOfChosen)
                     {
-                        if (person.Item1 != 0)
+                        if (person.Item1 != "")
                         {
                             Console.WriteLine($"Odabrao si {person.Item1}-{person.Item2.Item1}-{person.Item2.Item2}");
                         }
@@ -77,24 +78,24 @@ namespace Adresar
 
         }
 
-        static Tuple<int, Tuple<string, string>> FindByNumber(Dictionary<int, Tuple<string, string>> dic) {
+        static Tuple<string, Tuple<string, string>> FindByNumber(Dictionary<string, Tuple<string, string>> dic) {
             Console.WriteLine("Unesi broj osobe koju trazis: ");
-            var number=int.Parse(Console.ReadLine());
+            var number=Console.ReadLine().Replace(" ", "");
             while (!dic.ContainsKey(number)) {
 
                 Console.WriteLine("Unesi broj osobe koju trazis: ");
-                number = int.Parse(Console.ReadLine());
+                number = Console.ReadLine().Replace(" ", "");
             }
             var chosenPerson = dic[number];
-            return new Tuple<int, Tuple<string, string>>(number,chosenPerson);
+            return new Tuple<string, Tuple<string, string>>(number,chosenPerson);
         }
-        static List<Tuple<int, Tuple<string, string>>> FindByName(Dictionary<int, Tuple<string, string>> dic) {
+        static List<Tuple<string, Tuple<string, string>>> FindByName(Dictionary<string, Tuple<string, string>> dic) {
             Console.WriteLine("Unesi ime/prezime osobe koju trazis: ");
-            var list = new List<Tuple<int, Tuple<string, string>>>();
+            var list = new List<Tuple<string, Tuple<string, string>>>();
             var chosenName = Console.ReadLine();
             var listOfNamesSurnames = new List<string>();
             var tupleNameAdress = new Tuple<string, string>(" "," ");
-            var tuplePerson = new Tuple<int, Tuple<string, string>>(0,tupleNameAdress);
+            var tuplePerson = new Tuple<string, Tuple<string, string>>("",tupleNameAdress);
             foreach (var pair in dic)
             {
                 string nameAndSurname = pair.Value.Item1;
@@ -110,13 +111,13 @@ namespace Adresar
                 catch { }
                 if (name.ToLower() == chosenName.ToLower() || surname.ToLower() == chosenName.ToLower()) {
                     tupleNameAdress = new Tuple<string, string>(pair.Value.Item1,pair.Value.Item2);
-                    tuplePerson = new Tuple<int, Tuple<string, string>>(pair.Key, tupleNameAdress);
+                    tuplePerson = new Tuple<string, Tuple<string, string>>(pair.Key.Replace(" ", ""), tupleNameAdress);
                     list.Add(tuplePerson);
                 }
             }
             return list;
         }
-        static void SortElements(Dictionary<int, Tuple<string, string>> dic) {
+        static void SortElements(Dictionary<string, Tuple<string, string>> dic) {
             Console.WriteLine("Sortirani adresar:");
             var listOfnames = new List<string>();
             foreach (var pair in dic) {
@@ -127,13 +128,13 @@ namespace Adresar
             foreach (var name in listOfnames) {
                 foreach (var pair in dic) {
                     if (name == pair.Value.Item1) {
-                        Console.WriteLine($"{pair.Key}-{pair.Value.Item1}-{pair.Value.Item2}");
+                        Console.WriteLine($"{pair.Key.Replace(" ", "")}-{pair.Value.Item1}-{pair.Value.Item2}");
                     }
                         }
             }
             
         }
-        static Dictionary<int, Tuple<string, string>> DeleteElement(Dictionary<int, Tuple<string, string>> dic)
+        static Dictionary<string, Tuple<string, string>> DeleteElement(Dictionary<string, Tuple<string, string>> dic)
         {
             var index = dic.Values.Count;
             var chosenElementIndex = -1;
@@ -144,21 +145,21 @@ namespace Adresar
 
             }
             var i = 1;
-            var chosenPersonNumber = 0;
+            var chosenPersonNumber = "";
             foreach (var pair in dic)
             {
                 if (index == i)
-                    chosenPersonNumber = pair.Key;
+                    chosenPersonNumber = pair.Key.Replace(" ", "");
                 
                 i++;
             }
             Console.WriteLine("Unesi njen broj za potvrdu: ");
-            if (int.Parse(Console.ReadLine()) == chosenPersonNumber)
+            if (Console.ReadLine().Replace(" ", "") == chosenPersonNumber.Replace(" ", ""))
             {
                 Console.WriteLine("Unesi njen broj za potvrdu: ");
-                if (int.Parse(Console.ReadLine()) == chosenPersonNumber)
+                if (Console.ReadLine().Replace(" ", "") == chosenPersonNumber.Replace(" ", ""))
                 {
-                    dic.Remove(chosenPersonNumber);
+                    dic.Remove(chosenPersonNumber.Replace(" ", ""));
                 }
                 else
                 {
@@ -171,21 +172,21 @@ namespace Adresar
             }
             return dic;
             }
-        static Tuple<int, Tuple<string, string>> NewElement(Dictionary<int, Tuple<string, string>> dic) {
+        static Tuple<string, Tuple<string, string>> NewElement(Dictionary<string, Tuple<string, string>> dic) {
             Console.WriteLine("Unesi ime: ");
             var name = Console.ReadLine();
             Console.WriteLine("Unesi adresu: ");
             var adress = Console.ReadLine();
             Console.WriteLine("Unesi broj: ");
-            var number = int.Parse(Console.ReadLine());
+            var number = Console.ReadLine().Replace(" ", "");
             Console.WriteLine("Unesi broj ponovo: ");
-            var numberAgain = int.Parse(Console.ReadLine());
+            var numberAgain = Console.ReadLine().Replace(" ", "");
             Console.WriteLine("Unesi broj ponovo: ");
-            var numberAgain2 = int.Parse(Console.ReadLine());
+            var numberAgain2 = Console.ReadLine().Replace(" ", "");
             bool uniqueNumber = true;
             foreach (var pair in dic)
             {
-                if (pair.Key == number)
+                if (pair.Key.Replace(" ", "") == number)
                 {
                     uniqueNumber = false;
                     break;
@@ -205,16 +206,16 @@ namespace Adresar
                 }
                 Console.WriteLine("Moras unijeti tri puta isti broj koji je jedinstven!");
                 Console.WriteLine("Unesi broj: ");
-                number = int.Parse(Console.ReadLine());
+                number =Console.ReadLine().Replace(" ", "");
                 Console.WriteLine("Unesi broj ponovo: ");
-                numberAgain = int.Parse(Console.ReadLine());
+                numberAgain = Console.ReadLine().Replace(" ", "");
                 Console.WriteLine("Unesi broj ponovo: ");
-                numberAgain2 = int.Parse(Console.ReadLine());
+                numberAgain2 = Console.ReadLine().Replace(" ", "");
             }
             var newNameAdress = new Tuple<string, string>(name, adress);
-            return new Tuple<int, Tuple<string, string>>(number, newNameAdress);
+            return new Tuple<string, Tuple<string, string>>(number, newNameAdress);
         }
-        static Dictionary<int,Tuple<string,string>> ChangeNameAdressNumber(Dictionary<int, Tuple<string, string>> dic)
+        static Dictionary<string,Tuple<string,string>> ChangeNameAdressNumber(Dictionary<string, Tuple<string, string>> dic)
         {
             var index = dic.Values.Count ;
             var chosenElementIndex = -1;
@@ -225,12 +226,12 @@ namespace Adresar
 
             }
             var i = 1;
-            var chosenPersonNumber = 0;
+            var chosenPersonNumber = "";
             var chosenPerson = new Tuple<string, string>("","");
             foreach (var pair in dic) {
                 if (index == i)
                 {
-                    chosenPersonNumber = pair.Key;
+                    chosenPersonNumber = pair.Key.Replace(" ", "");
                     chosenPerson = new Tuple<string, string>(pair.Value.Item1,pair.Value.Item2);
                 }
                 i++;
@@ -247,7 +248,7 @@ namespace Adresar
                 Console.WriteLine("Novo ime je: ");
                 var name = Console.ReadLine();
                 Console.WriteLine("Potvrdi ponavljanjem broja: ");
-                if (int.Parse(Console.ReadLine()) == chosenPersonNumber)
+                if (Console.ReadLine().Replace(" ", "") == chosenPersonNumber)
                 {
                     chosenPerson = new Tuple<string, string>(name, chosenPerson.Item2);
                     dic[chosenPersonNumber] = chosenPerson;
@@ -261,7 +262,7 @@ namespace Adresar
                 Console.WriteLine("Nova adresa je: ");
                 var adress = Console.ReadLine();
                 Console.WriteLine("Potvrdi ponavljanjem broja: ");
-                if (int.Parse(Console.ReadLine()) == chosenPersonNumber)
+                if (Console.ReadLine().Replace(" ", "") == chosenPersonNumber)
                 {
                     chosenPerson = new Tuple<string, string>( chosenPerson.Item1,adress);
                     dic[chosenPersonNumber] = chosenPerson;
@@ -273,12 +274,12 @@ namespace Adresar
             }
             else {
                 Console.WriteLine("Novi broj je: ");
-                var newNumber = int.Parse(Console.ReadLine());
+                var newNumber = Console.ReadLine().Replace(" ", "");
                 Console.WriteLine("Potvrdi ponavljanjem broja: ");
-                if (int.Parse(Console.ReadLine()) == newNumber && dic.ContainsKey(newNumber)==false)
+                if (Console.ReadLine().Replace(" ", "") == newNumber && dic.ContainsKey(newNumber)==false)
                 {
                     Console.WriteLine("Potvrdi ponavljanjem broja: ");
-                    if (int.Parse(Console.ReadLine()) == newNumber)
+                    if (Console.ReadLine().Replace(" ", "") == newNumber)
                     {
                         dic.Remove(chosenPersonNumber);
                         dic.Add(newNumber,chosenPerson);
@@ -299,9 +300,9 @@ namespace Adresar
             return dic;
 
         }
-        static void showElements(Dictionary<int,Tuple<string,string>>dic) {
+        static void showElements(Dictionary<string,Tuple<string,string>>dic) {
             foreach (var pair in dic) {
-                Console.WriteLine($"{pair.Key} {pair.Value.Item1} {pair.Value.Item2}");
+                Console.WriteLine($"{pair.Key.Replace(" ", "")} {pair.Value.Item1} {pair.Value.Item2}");
             }
         }
     }
